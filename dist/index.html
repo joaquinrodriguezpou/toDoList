@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Create a new...</h1>
+
+        <form id="todoForm">
+          <input type="text" id="title"  placeholder="Título:" required>
+
+          <input type="text" id="description" placeholder="description:">
+      
+          <label for="duedate">Due date:</label>
+          <input type="date" id="duedate" required>
+      
+          <label for="priority">priority:</label>
+          <select id="priority" required>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+      
+          <button type="submit">Add Task</button>
+        </form>
+    </div>
+    <div class="proyect">
+        <div class="tasks-container"></div>
+    </div>
+    <script src="./bundle.js"></script>
+</body>
+    
+</html>
