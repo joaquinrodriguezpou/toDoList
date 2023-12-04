@@ -4,33 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>Create a new...</h1>
+    <div id="main-container">
+      <header>TO-DO LIST</header>
+      <div class="big-side-bar bar">
+        <div class="proyect-btns-container">
+          <h2>Proyects</h2>
+        </div>
+        <button id="addButton">+</button>
+      </div>
+      <div class="tasks-container"></div>
 
-        <form id="todoForm">
-          <input type="text" id="title"  placeholder="Título:" required>
+      <div class="form-container-background">
+        <div class="form-container">
+          <button id="closeBtn">x</button>
+          <h1>Create a new...</h1>
+          <div class="small-side-bar bar">
+            <button id="toDoFormBtn" class="show-form-btn">To Do</button>
+            <button id="proyectFormBtn" class="show-form-btn">Proyect</button>
+          </div>
+          <div class="form-content">
+            <form id="toDoForm" class="form">
+              <input type="text" id="title"  placeholder="Título:" required>
 
-          <input type="text" id="description" placeholder="description:">
-      
-          <label for="duedate">Due date:</label>
-          <input type="date" id="duedate" required>
-      
-          <label for="priority">priority:</label>
-          <select id="priority" required>
-            <option value="alta">Alta</option>
-            <option value="media">Media</option>
-            <option value="baja">Baja</option>
-          </select>
-      
-          <button type="submit">Add Task</button>
-        </form>
+              <input type="text" id="description" placeholder="description:">
+
+              <label for="duedate">Due date:</label>
+              <input type="date" id="duedate" required>
+
+              <label for="priority">priority:</label>
+              <select id="priority" required>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
+              </select>
+
+              <button type="submit">Add Task</button>
+            </form>
+            <form id="proyectForm" class="form">
+              <input type="text" id="name"  placeholder="proyect name" required>
+
+              <button type="submit">Add Proyect</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="proyect">
-        <div class="tasks-container"></div>
-    </div>
-    <script src="./bundle.js"></script>
+    <script src="bundle.js"></script>
 </body>
     
 </html>
