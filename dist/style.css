@@ -16,10 +16,8 @@ body {
     border: 4px solid rgb(149, 149, 149);
     border-radius: 4px;
     width: 1100px;
-    height: 700px;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1px;
     background-color: rgb(133, 133, 133);
     position: relative;
@@ -32,14 +30,27 @@ header {
     padding: 1rem;
     background-color: rgb(194, 195, 139);
     box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.4);
-    
+}
+
+header + div {
+    height: 600px;
+    display: flex;
+    flex-direction: row;
 }
 
 .big-side-bar {
+    width: 20%;
+    height: 100%;
+    box-sizing: border-box;
     padding: 20px;
     background-color: rgb(176, 201, 201);
     display: flex;
     flex-direction: column;
+}
+
+.tasks-container {
+    width: 80%;
+    height: 100%;
 }
 
 #addButton {
@@ -55,12 +66,6 @@ header {
     box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.4);
 }
 
-.main-content {
-    padding: 20px;
-    background-color: rgb(174, 201, 174);
-    overflow: auto;
-    border: none;
-}
 
 .form-container-background {
     width: 100%;
@@ -85,4 +90,21 @@ header {
 
 #proyectForm {
     display: none;
+}
+
+
+
+.proyect-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.task-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 18rem;
+    flex-shrink: 0;
 }

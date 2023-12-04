@@ -28,7 +28,13 @@ joaquin.createContainer();
 joaquin.appendProyectTo(tasksContainer)
 proyects[joaquin.name] = joaquin;
 
-
+const clean = new Task('clean', 'gggg', '12/12', 'alta');
+clean.createContainer()
+Home.addTask(clean);
+clean.appendTaskTo(Home.container); 
+console.log(clean)
+console.log(Home.container)
+console.log(Home)
 
 
 // tell selected proyect
@@ -39,7 +45,6 @@ proyectButtons.addEventListener('click', (event) => {
         child.style.display = 'none'
     });
     selectedProyect.container.style.display = 'flex';
-    console.log(proyectShown)
 })
 
 function getToDoFormValues(){
@@ -72,13 +77,16 @@ export function createTask(){
     proyects[proyectShown].addTask(newTask);
     // create task container
     newTask.createContainer();
-    // append created task container to Home container
-    newTask.appendTaskTo(Home.container);
-    // append created task container to current selected proyect container
-    newTask.appendTaskTo(proyects[proyectShown].container);
     // add task to home proyect
     Home.addTask(newTask);
+    // append created task container to Home container
+    newTask.appendTaskTo(Home.container); 
+    // append created task container to current selected proyect container
+    newTask.appendTaskTo(proyects[proyectShown].container);
     closeForm();
+    console.log(proyects[proyectShown]);
+    console.log(proyects[proyectShown].container);
+   
 })
 } 
 
