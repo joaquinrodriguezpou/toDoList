@@ -7,6 +7,7 @@ export class Task {
         this.checked = undefined;
         this.taskContainer;
         this.edit;
+        this.remove;
     }
 
     createContainer(){
@@ -17,7 +18,17 @@ export class Task {
         this.edit = document.createElement('button');
         this.edit.classList.add('edit-btn');
         this.edit.textContent = 'edit';
-    
+        
+        this.remove = document.createElement('button');
+        this.remove.classList.add('remove-btn');
+        this.remove.textContent = 'remove';
+        
+        // doesnt work
+        // this.remove.addEventListener('click', () => this.removeTask());
+        // this.remove.addEventListener = () => {
+        //     this.removeTask();
+        // };
+
         const title = document.createElement('h1');
         const description = document.createElement('p');
         const dueDate = document.createElement('p');
@@ -33,15 +44,24 @@ export class Task {
         this.taskContainer.appendChild(dueDate);
         this.taskContainer.appendChild(priority);
         this.taskContainer.appendChild(this.edit);
+        this.taskContainer.appendChild(this.remove);
     }
 
     appendTaskTo(container){
-        container.appendChild(this.taskContainer);
+        const taskContainerCopy = this.taskContainer.cloneNode(true);
+        container.appendChild(taskContainerCopy);
     }
 
     editProperty(property, newproperty){
         this[property] = newproperty;
     }
+
+    removeTask() {
+        if (this.taskContainer) {
+            this.taskContainer.remove();
+        }
+    }
+
 }
 
 export class Proyect {
@@ -83,6 +103,10 @@ export class Proyect {
 
     removeTask(task) {
         delete this.tasks[task.title]
+    }
+
+    removeTaskContainer(taskContainer){
+
     }
 
     logTasks(){

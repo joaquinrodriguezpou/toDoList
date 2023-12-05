@@ -6,6 +6,8 @@ const proyectButtons = document.querySelector('.proyect-btns-container');
 const toDoForm = document.getElementById('toDoForm');
 const proyectForm = document.getElementById('proyectForm');
 
+const editBtn = document.querySelectorAll('.edit-btn');
+
 // store proyects 
 let proyects = {};
 
@@ -37,13 +39,52 @@ console.log(Home.container)
 console.log(Home)
 
 
-// tell selected proyect
+
+tasksContainer.addEventListener('click', (event) => {
+    // verify if it is a remove button
+    if (event.target.classList.contains('remove-btn')) {
+        // remove task container
+        event.target.parentNode.remove();
+    }
+});
+
+
+// the problem is that whenever i create a new task, its remove button wont be selected
+
+// remove task container
+// const removeBtn = document.querySelectorAll('.remove-btn');
+
+// Array.from(removeBtn).forEach(task => {
+//     task.addEventListener('click', (event) => {
+//     // remove task container
+//     event.target.parentNode.remove();
+
+//     let taskToRemove = event.target.parentNode.id;
+//     proyects
+// })
+// })
+
+
+
+// show tasks 
+
+// function showTasks(){
+//     Array.from(proyects[proyectShown].tasks).forEach(task => {
+
+//     })
+// }
+
+
 proyectButtons.addEventListener('click', (event) => {
+    // define selected proyect
     proyectShown = event.target.id;
+    // select selecterd proyect
     let selectedProyect = proyects[proyectShown];
+    // hide all proyects containers
     Array.from(tasksContainer.children).forEach(child => {
         child.style.display = 'none'
     });
+    // show selected proyect container 
     selectedProyect.container.style.display = 'flex';
 })
 
@@ -84,9 +125,10 @@ export function createTask(){
     // append created task container to current selected proyect container
     newTask.appendTaskTo(proyects[proyectShown].container);
     closeForm();
-    console.log(proyects[proyectShown]);
-    console.log(proyects[proyectShown].container);
-   
+
+    // console.log(proyects[proyectShown]);
+    // console.log(proyects[proyectShown].container);
+    // console.log(newTask.remove);
 })
 } 
 
