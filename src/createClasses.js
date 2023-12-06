@@ -8,13 +8,13 @@ export class Task {
         this.taskContainer;
         this.edit;
         this.remove;
+        this.proyect = [];
     }
 
     createContainer(){
         this.taskContainer = document.createElement('div');
-        this.taskContainer.classList.add('task-container');
-        this.taskContainer.id = this.title;
-
+        this.taskContainer.classList.add('task-container', this.title);
+        
         this.edit = document.createElement('button');
         this.edit.classList.add('edit-btn');
         this.edit.textContent = 'edit';
@@ -48,8 +48,13 @@ export class Task {
     }
 
     appendTaskTo(container){
+        container.appendChild(this.makeContainerCopy());
+        this.proyect.push(container.id);
+    }
+
+    makeContainerCopy(){
         const taskContainerCopy = this.taskContainer.cloneNode(true);
-        container.appendChild(taskContainerCopy);
+        return taskContainerCopy;
     }
 
     editProperty(property, newproperty){
@@ -62,11 +67,21 @@ export class Task {
         }
     }
 
+    getValues() {
+        return {
+            title: this.title,
+            description: this.description,
+            duedate: this.duedate,
+            priority: this.priority,
+        };
+    }    
+
 }
 
 export class Proyect {
     constructor(name){
         this.name = name;
+        this.buttonid = `${this.name}Btn`;
         this.tasks = {};
         this.button;
         this.container;
@@ -75,7 +90,7 @@ export class Proyect {
     createBtn(){
         this.button = document.createElement('button');
         this.button.classList.add('proyect-btn');
-        this.button.id = this.name;
+        this.button.id = this.buttonid ;
         this.button.textContent = this.name;
     }
 
@@ -103,11 +118,7 @@ export class Proyect {
 
     removeTask(task) {
         delete this.tasks[task.title]
-    }
-
-    removeTaskContainer(taskContainer){
-
-    }
+    } 
 
     logTasks(){
         console.log(this.tasks)
