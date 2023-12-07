@@ -8,13 +8,14 @@ const proyectForm = document.getElementById('proyectForm');
 const editTaskForm = document.getElementById('edit-task-form');
 const editProyectForm = document.getElementById('edit-proyect-form');
 
-const editBtn = document.querySelectorAll('.edit-btn');
-
 // store proyects 
 let proyects = {};
 
 // define proyect to be shown
 let proyectShown = 'Home';
+
+// store task that is being edited
+let oldTask;
 
 // create and add "Home" proyect to proyect buttons container
 const Home = new Proyect('Home');
@@ -37,33 +38,9 @@ clean.createContainer()
 Home.addTask(clean);
 clean.appendTaskTo(Home.container); 
 
-// the problem is that whenever i create a new task, its remove button wont be selected
-
-// remove task container
-// const removeBtn = document.querySelectorAll('.remove-btn');
-
-// Array.from(removeBtn).forEach(task => {
-//     task.addEventListener('click', (event) => {
-//     // remove task container
-//     event.target.parentNode.remove();
-
-//     let taskToRemove = event.target.parentNode.id;
-//     proyects
-// })
-// })
-
-
-
-// show tasks 
-
-// function showTasks(){
-//     Array.from(proyects[proyectShown].tasks).forEach(task => {
-
-//     })
-// }
-
-
-proyectButtons.addEventListener('click', (event) => {
+export function showSelectedProyect(){
+    proyectButtons.addEventListener('click', (event) => {
+    console.log('worksss')
     // define selected proyect
     proyectShown = event.target.textContent;
     // select selected proyect
@@ -75,6 +52,7 @@ proyectButtons.addEventListener('click', (event) => {
     // show selected proyect container 
     selectedProyect.style.display = 'flex';
 })
+}
 
 function getToDoFormValues(){
     let title = document.getElementById('title').value;
@@ -88,6 +66,11 @@ function getToDoFormValues(){
         dueDate,
         priority,
     ]
+}
+
+function getProyectFormValues(){
+    let name = document.getElementById('name').value;
+    return name
 }
 
 function getEditTaskValues(){
@@ -104,71 +87,66 @@ function getEditTaskValues(){
     ]   
 }
 
-function getProyectFormValues(){
-    let name = document.getElementById('name').value;
-    return name
-}
-
 export function createTask(){
     // listens to form when submited
     taskForm.addEventListener('submit', (event) => {
-    // prevents page for refreshing
-    event.preventDefault();
-    // create task
-    let newTask = new Task(...getToDoFormValues());
-    // add created task to current selected proyect
-    proyects[proyectShown].addTask(newTask);
-    // create task container
-    newTask.createContainer();
-    // append created task container to current selected proyect container
-    newTask.appendTaskTo(proyects[proyectShown].container);
-    closeForm();
-
-    // if(proyectShown === 'Home'){
-    //     newTask.taskContainer.id = newTask.title;
-    // }
-
-    if(proyectShown !== 'Home') {
-        // add task to home proyect
-        Home.addTask(newTask); 
-        // append created task container to Home container
-        newTask.appendTaskTo(Home.container);   
+        // prevents page for refreshing
+        event.preventDefault();
+        // create task
+        let newTask = new Task(...getToDoFormValues());
+        // select current selected proyect
+        let selectedProyect = proyects[proyectShown]
+        // create task container
+        newTask.createContainer();
+        // add created task to current selected proyect
+        selectedProyect.addTask(newTask);
+        // append created task container to current selected proyect container
+        newTask.appendTaskTo(selectedProyect.container);
+        // add current selected proyect to the task
+        newTask.addProyect(selectedProyect.name);
         
-        // newTask.taskContainer.id = newTask.title;
-    };
 
-    // console.log(proyects[proyectShown]);
-    // console.log(proyects[proyectShown].container);
-    // console.log(newTask.remove);
-})
+        if(proyectShown !== 'Home') {
+            // add task to home proyect
+            Home.addTask(newTask); 
+            // append created task container to Home container
+            newTask.appendTaskTo(Home.container);   
+            // add Home proyect to the task
+            newTask.addProyect('Home');
+            // newTask.taskContainer.id = newTask.title;
+        };
+        console.log(newTask.proyect)
+        console.log(selectedProyect.name)
+        closeForm();
+    })
 } 
 
 export function createProyect(){
     // listens to form when submited
     proyectForm.addEventListener('submit', (event) => {
-    // prevents page for refreshing
-    event.preventDefault();
-    // create proyect
-    let newProyect = new Proyect(getProyectFormValues());
-    // create proyect button
-    newProyect.createBtn();
-    // append proyect button
-    newProyect.appendBtnTo(proyectButtons);
-    // create proyect container to show tasks
-    newProyect.createContainer();
-    // append proyect container
-    newProyect.appendProyectTo(tasksContainer)
-    // add proyect to the proyects object
-    proyects[newProyect.name] = newProyect;
-    closeForm();
-    
-})
+        // prevents page for refreshing
+        event.preventDefault();
+        // create proyect
+        let newProyect = new Proyect(getProyectFormValues());
+        // create proyect button
+        newProyect.createBtn();
+        // append proyect button
+        newProyect.appendBtnTo(proyectButtons);
+        // create proyect container to show tasks
+        newProyect.createContainer();
+        // append proyect container
+        newProyect.appendProyectTo(tasksContainer)
+        // add proyect to the proyects object
+        proyects[newProyect.name] = newProyect;
+        closeForm();
+    })
 } 
 
 
-let oldTask;
-// listens to edit task form when submited
-editTaskForm.addEventListener('submit', (event) => {
+
+export function createEditedTask(){
+    // listens to edit task form when submited
+    editTaskForm.addEventListener('submit', (event) => {
     // prevents page for refreshing
     event.preventDefault();
     // create edited task 
@@ -177,56 +155,63 @@ editTaskForm.addEventListener('submit', (event) => {
     editedTask.createContainer();
     // find in wich proyect is the task
     let proyectsIn = oldTask.proyect;
-
-    // i finally decide to jus remove the old task from the actual selected proyect, not from all of them.
-    proyectsIn.forEach(proyect => {
-        // select actual proyect
-        let actualProyect = proyects[proyect];
-        // select actual proyect container
-        let actualProyectContainer = document.getElementById(actualProyect.name);
-        // select old task container
-        let oldTaskContainer = actualProyectContainer.querySelector(`.${oldTask.title}`);
-        // add edited task container right next to the old one
-        // second time this is being executed, takes editedtaskContainer from the other proyect
-        actualProyectContainer.insertBefore(editedTask.makeContainerCopy(), oldTaskContainer);
-        // remove old task container
-        if (oldTaskContainer) {
-            oldTaskContainer.remove();
-        }
-        else {
-            console.error(`havent found such contaienr from task: ${oldTask.title}`);
-        }
-        // remove old task from the proyect it was in
-        actualProyect.removeTask(oldTask);
-        // add edited task to the proyect it was in
-        actualProyect.addTask(editedTask);
-    })
+        // iterate through each proyect the task is in
+        proyectsIn.forEach(proyect => {
+            // select actual proyect
+            let actualProyect = proyects[proyect];
+            // select actual proyect container
+            let actualProyectContainer = document.getElementById(actualProyect.name);
+            // select old task container
+            let oldTaskContainer = actualProyectContainer.querySelector(`.${oldTask.title}`);
+            // add edited task container right next to the old one
+            actualProyectContainer.insertBefore(editedTask.makeContainerCopy(), oldTaskContainer);
+            // remove old task container
+            if (oldTaskContainer) {
+                oldTaskContainer.remove();
+            }
+            else {
+                console.error(`havent found such contaienr from task: ${oldTask.title}`);
+            }
+            // remove old task from the proyect it was in
+            actualProyect.removeTask(oldTask);
+            // add edited task to the proyect it was in
+            actualProyect.addTask(editedTask);
+            // add current selected proyect to the task
+            editedTask.addProyect(actualProyect.name);
+            console.log(editedTask)
+            console.log(actualProyect.name)
+        })
+    closeForm();
 })
+}
 
 
-tasksContainer.addEventListener('click', (event) => {
-    // verify if it is a remove button
-    if (event.target.classList.contains('remove-btn')) {
-        // remove task container
-        event.target.parentNode.remove();
-    }
-    else if(event.target.classList.contains('edit-btn')) {
-        // lets get the identificator class of the old task container
-        let classes = event.target.parentNode.classList;
-        // select old task
-        oldTask = proyects['Home'].tasks[classes[1]];
-        // select edit form values 
-        let edittitle = document.getElementById('edit-title');
-        let editdescription = document.getElementById('edit-description');
-        let editdueDate = document.getElementById('edit-duedate');
-        let editpriority = document.getElementById('edit-priority');
-        // assign old task values to edit form values 
-        edittitle.value = oldTask.title;
-        editdescription.value = oldTask.description;
-        editdueDate.value = oldTask.dueDate;
-        editpriority.value = oldTask.priority;
-        displayEditForm();
-    }
+export function editAndRemoveBtns() {
+    tasksContainer.addEventListener('click', (event) => {
+        // verify if it is a remove button
+        if (event.target.classList.contains('remove-btn')) {
+            // remove task container
+            event.target.parentNode.remove();
+        }
+        // verify if it is an edit button
+        else if(event.target.classList.contains('edit-btn')) {
+            // get the identificator class of the old task container
+            let classes = event.target.parentNode.classList;
+            // select old task
+            oldTask = proyects['Home'].tasks[classes[1]];
+            // select edit form values 
+            let edittitle = document.getElementById('edit-title');
+            let editdescription = document.getElementById('edit-description');
+            let editdueDate = document.getElementById('edit-duedate');
+            let editpriority = document.getElementById('edit-priority');
+            // assign old task values to edit form values 
+            edittitle.value = oldTask.title;
+            editdescription.value = oldTask.description;
+            editdueDate.value = oldTask.dueDate;
+            editpriority.value = oldTask.priority;
+            displayEditForm();
+        }
+    });
+}
 
-});
 

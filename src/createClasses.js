@@ -49,7 +49,10 @@ export class Task {
 
     appendTaskTo(container){
         container.appendChild(this.makeContainerCopy());
-        this.proyect.push(container.id);
+    }
+
+    addProyect(proyectName){
+        this.proyect.push(proyectName);
     }
 
     makeContainerCopy(){
