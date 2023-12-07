@@ -1,20 +1,15 @@
 import './handleForm.js';
 import { displayForm, chooseForm, closeFormBtn } from './formShowing.js';
-import { showSelectedProyect, createTask, createProyect, editAndRemoveBtns, createEditedTask } from './handleForm.js';
+import { showSelectedProyect, addTask, addProyect } from './handleForm.js';
+import { listenEditAndRemoveBtns, EditeTask } from './editTask.js'
+
 
 displayForm();
 chooseForm();
 closeFormBtn();
 showSelectedProyect();
-createTask();
-createProyect();
-createEditedTask();
-editAndRemoveBtns();
-// let proyectShown = null;
+addTask();
+addProyect();
+EditeTask();
+listenEditAndRemoveBtns();
 
-// const proyectButtons = document.querySelector('.proyectBtns-container');
-
-// proyectButtons.addEventListener('click', (event) => {
-//     proyectShown = event.target.id;
-//     console.log(proyectShown)
-// })

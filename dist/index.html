@@ -21,8 +21,10 @@
 
       <div class="form-container-background">
         <div class="form-container">
-          <button class="closeBtn">x</button>
-          <h1>Create a new...</h1>
+          <div class="form-header">
+            <h1>Create a new...</h1>
+            <button class="closeBtn">x</button>
+          </div>
           <div class="small-side-bar bar">
             <button id="taskFormBtn" class="show-form-btn">To Do</button>
             <button id="proyectFormBtn" class="show-form-btn">Proyect</button>
@@ -34,7 +36,7 @@
               <input type="text" id="description" placeholder="description:">
 
               <label for="duedate">Due date:</label>
-              <input type="date" id="duedate">
+              <input type="date" id="duedate" required>
 
               <label for="priority">priority:</label>
               <select id="priority" required>
@@ -68,11 +70,6 @@
               <option value="media">Media</option>
               <option value="baja">Baja</option>
             </select>
-
-            <button type="submit">make change</button>
-          </form>
-          <form id="edit-proyect-form">
-            <input type="text" id="name"  placeholder="proyect name" required>
 
             <button type="submit">make change</button>
           </form>

@@ -61,7 +61,7 @@ export function closeForm(){
 }
 
 export function closeFormBtn(){
-    Array.from(closeBtn).forEach(btn => {
+    closeBtn.forEach(btn => {
         btn.addEventListener('click', () => {
         closeForm()
     })

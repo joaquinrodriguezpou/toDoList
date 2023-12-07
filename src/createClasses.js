@@ -4,10 +4,9 @@ export class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.checked = undefined;
+        this.checked = false;
+        this.checkBtn;
         this.taskContainer;
-        this.edit;
-        this.remove;
         this.proyect = [];
     }
 
@@ -15,19 +14,16 @@ export class Task {
         this.taskContainer = document.createElement('div');
         this.taskContainer.classList.add('task-container', this.title);
         
-        this.edit = document.createElement('button');
-        this.edit.classList.add('edit-btn');
-        this.edit.textContent = 'edit';
+        const edit = document.createElement('button');
+        edit.classList.add('edit-btn');
+        edit.textContent = 'edit';
         
-        this.remove = document.createElement('button');
-        this.remove.classList.add('remove-btn');
-        this.remove.textContent = 'remove';
-        
-        // doesnt work
-        // this.remove.addEventListener('click', () => this.removeTask());
-        // this.remove.addEventListener = () => {
-        //     this.removeTask();
-        // };
+        const remove = document.createElement('button');
+        remove.classList.add('remove-btn');
+        remove.textContent = 'remove';
+
+        this.checkBtn = document.createElement('button');
+        this.checkBtn.classList.add('check-btn');
 
         const title = document.createElement('h1');
         const description = document.createElement('p');
@@ -38,47 +34,40 @@ export class Task {
         description.textContent = this.description;
         dueDate.textContent = this.dueDate;
         priority.textContent = this.priority;
-    
+        
+        this.taskContainer.appendChild(this.checkBtn)
         this.taskContainer.appendChild(title);
         this.taskContainer.appendChild(description);
         this.taskContainer.appendChild(dueDate);
         this.taskContainer.appendChild(priority);
-        this.taskContainer.appendChild(this.edit);
-        this.taskContainer.appendChild(this.remove);
+        this.taskContainer.appendChild(edit);
+        this.taskContainer.appendChild(remove);
     }
 
     appendTaskTo(container){
         container.appendChild(this.makeContainerCopy());
     }
 
-    addProyect(proyectName){
-        this.proyect.push(proyectName);
-    }
-
     makeContainerCopy(){
         const taskContainerCopy = this.taskContainer.cloneNode(true);
         return taskContainerCopy;
-    }
+    } 
 
-    editProperty(property, newproperty){
-        this[property] = newproperty;
-    }
-
-    removeTask() {
-        if (this.taskContainer) {
-            this.taskContainer.remove();
+    check(button) {
+        if (this.checked === false) {
+            this.checked = true;
+            button.classList.remove('unchecked-btn');
+            button.classList.add('checked-btn');
+        } else if(this.checked) {
+            this.checked = false;
+            button.classList.add('unchecked-btn');
+            button.classList.remove('checked-btn');
         }
     }
 
-    getValues() {
-        return {
-            title: this.title,
-            description: this.description,
-            duedate: this.duedate,
-            priority: this.priority,
-        };
-    }    
-
+    addProyect(proyectName){
+            this.proyect.push(proyectName);
+        }
 }
 
 export class Proyect {
@@ -127,3 +116,16 @@ export class Proyect {
         console.log(this.tasks)
     }
 }
+
+class ProyectsManager {
+    constructor() {
+      this.proyects = {};
+    }
+  
+    addProyect(name, proyect) {
+      this.proyects[name] = proyect;
+    }
+}
+  
+export const proyectsManager = new ProyectsManager();
+  
