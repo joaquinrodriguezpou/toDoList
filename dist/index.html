@@ -25,54 +25,57 @@
             <h1>Create a new...</h1>
             <button class="closeBtn">x</button>
           </div>
-          <div class="small-side-bar bar">
-            <button id="taskFormBtn" class="show-form-btn">To Do</button>
-            <button id="proyectFormBtn" class="show-form-btn">Proyect</button>
-          </div>
-          <div class="form-content">
-            <form id="taskForm" class="form">
-              <input type="text" id="title"  placeholder="Título:" required>
+          <div>
+            <div class="small-side-bar bar">
+              <button id="taskFormBtn" class="show-form-btn selected-form">To Do</button>
+              <button id="proyectFormBtn" class="show-form-btn">Proyect</button>
+            </div>
+            <div class="form-content">
+              <form id="taskForm" class="form">
+                <textarea name="title" id="title"  placeholder="Title: going running" required></textarea>
+                <textarea name="description" id="description" placeholder="Description: e.g running 10km around San Martin park"></textarea>
+                <label for="duedate">Due Date: <input type="date" id="duedate" required>
+                </label>
+                <div class="form-content-footer">
+                  <label> Priority: </label>
+                  <input type="radio" id="high" class="priority radios" name="priority" value="high" required>
+                  <label for="high" class="radio-label">High</label>
+                  <input type="radio" id="medium" class="priority radios" name="priority" value="medium" required>
+                  <label for="medium" class="radio-label">Medium</label>
+                  <input type="radio" id="low" class="priority radios" name="priority" value="low" required>
+                  <label for="low" class="radio-label">Low</label>
 
-              <input type="text" id="description" placeholder="description:">
-
-              <label for="duedate">Due date:</label>
-              <input type="date" id="duedate" required>
-
-              <label for="priority">priority:</label>
-              <select id="priority" required>
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
-              </select>
-
-              <button type="submit">Add Task</button>
-            </form>
-            <form id="proyectForm" class="form">
-              <input type="text" id="name"  placeholder="proyect name" required>
-
-              <button type="submit">Add Proyect</button>
-            </form>
+                  <button type="submit" class="add-btn" id="add-task-btn">Add Task</button>
+                </div>
+              </form>
+              <form id="proyectForm" class="form">
+                <input type="text" id="name"  placeholder="Name: House" required>
+                <button type="submit" class="add-btn" id="add-proyect-btn">Create Proyect</button>
+              </form>
+            </div>
           </div>
         </div>
         <div class="edit-form-container">
-          <button class="closeBtn">x</button>
-          <form id="edit-task-form" >
-            <input type="text" id="edit-title"  placeholder="Título:" required>
-
-            <input type="text" id="edit-description" placeholder="description:">
-
-            <label for="duedate">Due date:</label>
-            <input type="date" id="edit-duedate" required>
-
-            <label for="priority">priority:</label>
-            <select id="edit-priority" required>
-              <option value="alta">Alta</option>
-              <option value="media">Media</option>
-              <option value="baja">Baja</option>
-            </select>
-
-            <button type="submit">make change</button>
-          </form>
+          <div class="form-header">
+            <h1>Edit Task</h1>
+            <button class="closeBtn">x</button>
+          </div>
+            <form id="edit-task-form" class="edit-form">
+              <textarea name="edit-title" id="edit-title"  placeholder="Title:" required></textarea>
+              <textarea name="description" id="edit-description" placeholder="description:"></textarea>
+              <label for="duedate">Due date:<input type="date" id="edit-duedate" required>
+              </label>
+              <div class="form-content-footer">
+                <label> Priority: </label>
+                <input type="radio" id="edit-high" class="edit-priority radios" name="priority" value="high">
+                <label for="edit-high" class="radio-label">High</label>
+                <input type="radio" id="edit-medium" class="edit-priority radios" name="priority" value="medium">
+                <label for="edit-medium" class="radio-label">Medium</label>
+                <input type="radio" id="edit-low" class="edit-priority radios" name="priority" value="low">
+                <label for="edit-low" class="radio-label">Low</label>
+              </div>
+              <button type="submit" class="add-btn" id="edit-task-btn">make change</button>
+            </form>
         </div>
       </div>
     </div>

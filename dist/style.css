@@ -9,10 +9,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
 }
 
-#main-container, .form-container {
+#main-container {
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -22,19 +22,17 @@ body {
     border: 4px solid rgb(149, 149, 149);
     width: 1100px;
     gap: 1px;
-    background-color: rgb(133, 133, 133);
+    background-color: rgb(255, 255, 255);
     position: relative;
 }
-
-
 
 header {
     font-size: 3rem;
     height: fit-content;
     grid-column: span 2;
     padding: 1rem;
-    background-color: rgb(194, 195, 139);
-    box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.4);
+    color: rgb(31, 90, 74);
+    background-color: rgb(94, 181, 158);
 }
 
 header + div {
@@ -48,9 +46,47 @@ header + div {
     height: 100%;
     box-sizing: border-box;
     padding: 20px;
-    background-color: rgb(176, 201, 201);
+    background-color: rgb(223, 223, 223);
     display: flex;
     flex-direction: column;
+}
+
+.proyect-btns-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.proyect-btns-container > * {
+    height: 2rem;
+}
+
+.proyect-btn {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: none;
+    background-color: transparent;
+}
+
+#HomeBtn {
+    text-align: start;
+}
+
+.proyect-btns-container h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    background-color:rgb(58, 151, 126);
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+}
+
+.proyect-btn-selected {
+    height: 2rem;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: rgb(31, 90, 74);
 }
 
 .tasks-container {
@@ -77,43 +113,16 @@ header + div {
     height: 100%;
     position: absolute;
     top: 0px;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 20px;
-    background-color: rgba(1, 1, 1, 0.4);
-}
-
-.form-container {
-    background-color: aqua;
-    padding: 5px;
-}
-
-.form-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.closeBtn {
-    font-size: 1rem;
-    width: 1rem;
-    height: 1rem;
-    padding: 0;
-    margin: 0;
-    align-self: flex-start; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(1, 1, 1, 0.6);
 }
 
 
-.edit-form-container {
-    
-}
-
-#toDoForm {
+#taskForm {
     display: flex;
 }
 
@@ -126,30 +135,293 @@ header + div {
     height: 100%;
     overflow: auto;
     flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.proyect-container > h1 {
+    width: 100%;
+    padding: 10px;
+    font-weight: 900;
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 2rem;
+    background-color:rgb(58, 151, 126);
+    border-radius: 10px;
+    box-sizing: border-box;
 }
 
 .task-container {
     display: flex;
-    justify-content: space-between;
+    gap: 2rem;
     align-items: center;
     width: 100%;
     height: fit-content;
-    padding: 1rem;
+    padding: 15px 10px;
+    border-radius: 5px;
     flex-shrink: 0;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+}
+
+.task-container:hover {
+    box-shadow: 1px 3px 8px rgba(1, 1, 1, 0.3);
+}
+
+.task-description {
+    flex: 1;
+}
+
+.check-btn, .edit-btn, .remove-btn {
+    background-color: transparent;
+    background-size: contain; 
+    border: none; 
+    cursor: pointer;
 }
 
 .check-btn {
-    height: 15px;
-    width: 15px;
-    border: none;
-    background-color: white;
+    width: 30px;
+    height: 30px;
+}
+
+.completed {
+    display: none;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: rgb(24, 130, 102);
+}
+
+.task-completed {
+    background-color: rgb(94, 181, 158);
+    color: white;
+}
+
+.edit-btn, .remove-btn {
+    width: 20px;
+    height: 20px;
 }
 
 .checked-btn {
-    background-color: green;
-    
+    background-image: url(./images/check-circle.svg);
+    background-repeat: no-repeat;
 }
 
 .unchecked-btn {
-   background-color: white; 
+   background-image: url(./images/unchecked-circle.svg);
+   background-repeat: no-repeat;
+}
+
+.edit-btn {
+    background-image: url(./images/edit.svg);
+    background-repeat: no-repeat;
+}
+
+.remove-btn {
+    background-image: url(./images/trash.svg);
+    background-repeat: no-repeat;
+}
+
+.details-container {
+    display: none;
+    flex-direction: column;
+    padding: 0px 0px 20px 20px;
+    background-color: white;
+    gap: 10px;
+    width: 400px;
+    border-radius: 10px;
+}
+
+.details-btn {
+    font-weight: 600;
+    margin-left: auto;
+    padding: 5px;
+    border: 1px solid rgb(46, 203, 161);
+    color: rgb(46, 203, 161);
+}
+
+.details-btn:hover {
+    color: white;
+    background-color: rgb(65, 202, 165);
+}
+
+/* task form */
+
+.form-container {
+    flex-direction: column;
+}
+
+.form-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(94, 181, 158);
+    padding: 5px;
+}
+
+.form-header h1{
+    font-size: 2rem;
+    color: rgb(31, 90, 74);
+}
+
+.closeBtn, .close-details-btn {
+    font-size: 2rem;
+    width: 1rem;
+    height: 1rem;
+    padding: 0;
+    margin-right: 10px;
+    align-self: flex-start; 
+    display: flex;
+    background-color: transparent;
+    border: none;
+}
+
+.closeBtn {
+    color: white;
+}
+
+.close-details-btn {
+    color: black;
+    align-self: flex-end;
+}
+
+.form-header + div {
+    height: 300px;
+    width: 700px;
+    display: flex;
+    
+}
+
+.small-side-bar {
+    width: 15%;
+    background-color: rgb(223, 223, 223);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.selected-form {
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.show-form-btn {
+    letter-spacing: 1px;
+    font-size: 1rem;
+    border: none;
+    margin-top: 10px;
+    width: fit-content;
+    background-color: transparent;
+}
+
+#edit-task-form {
+    display: flex;
+}
+
+.form-content, #edit-task-form{
+    flex: 1;
+    background-color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.form-content input, #edit-title {
+    border: none;
+    font-size: 1rem;
+}
+
+#taskForm, #proyectForm, #edit-task-form{
+    height: 100%;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+#proyectForm {
+    justify-content: space-between;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+}
+
+input::placeholder, #description::placeholder, #edit-description::placeholder{ 
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+textarea {
+    border: none;
+}
+
+#description, #edit-description {
+    flex: 1;
+    overflow: auto;
+}
+
+.form-content-footer {
+    display: flex;
+    align-items: center;
+}
+
+#duedate, #edit-duedate {
+    border: 2px solid rgb(94, 181, 158);
+    border-radius: 5px;
+    padding: 4px 8px;
+    margin-left: 10px;
+}
+
+.radio-label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 4px 8px;
+    border: 2px solid rgb(94, 181, 158);
+    border-radius: 4px;
+}
+
+.form-content-footer input[type="radio"] {
+    display: none;
+} 
+
+.radio-label:hover {
+    background-color: rgb(233, 255, 250);
+}
+
+.radio-label input:checked + span {
+    background-color: rgb(94, 181, 158);
+    color: white;
+}
+
+.form-content-footer label {
+    margin-right: 1rem;
+}
+
+.add-btn {
+    font-size: 1rem;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid rgb(94, 181, 158);
+    color: rgb(94, 181, 158);
+    background-color: transparent;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#add-task-btn {
+    margin-left: auto;
+}
+
+.add-btn:hover {
+    color: white;
+    background-color: rgb(65, 202, 165);
+}
+
+.edit-form-container {
+    display: none;
+    width: 600px;
+    height: 400px;
+    flex-direction: column;
 }

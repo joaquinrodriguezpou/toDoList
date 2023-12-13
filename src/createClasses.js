@@ -1,3 +1,11 @@
+// import uncheckedCircle from '../dist/images/unchecked-circle.svg';
+// import checkedCircle from '../dist/images/check-circle.svg';
+// import editIcon from '../dist/images/edit.svg';
+// import trashIcon from '../dist/images/trash.svg';
+import { entireForm } from "./formShowing";
+import { displayJustEntireForm } from "./formShowing";
+import { closeForm } from "./formShowing";
+
 export class Task {
     constructor(title, description, dueDate, priority) {
         this.title = title;
@@ -8,40 +16,80 @@ export class Task {
         this.checkBtn;
         this.taskContainer;
         this.proyect = [];
+        // create details container
+        this.detailsBtn = document.createElement('button');
+        this.detailsContainer = document.createElement('div');
+        this.detailsContainer.classList.add('details-container');
+        this.closeDetailsBtn = document.createElement('button');
+        entireForm.appendChild(this.detailsContainer);
+
     }
 
     createContainer(){
         this.taskContainer = document.createElement('div');
-        this.taskContainer.classList.add('task-container', this.title);
-        
-        const edit = document.createElement('button');
-        edit.classList.add('edit-btn');
-        edit.textContent = 'edit';
-        
-        const remove = document.createElement('button');
-        remove.classList.add('remove-btn');
-        remove.textContent = 'remove';
+        this.taskContainer.classList.add('task-container');
+        this.taskContainer.id = this.title;
 
         this.checkBtn = document.createElement('button');
-        this.checkBtn.classList.add('check-btn');
-
+        const completed = document.createElement('p');
         const title = document.createElement('h1');
-        const description = document.createElement('p');
         const dueDate = document.createElement('p');
-        const priority = document.createElement('p');
+        const edit = document.createElement('button');
+        const remove = document.createElement('button');
     
+        this.checkBtn.classList.add('check-btn', 'unchecked-btn');
+        completed.textContent = 'Completed';
+        completed.classList.add('completed');
         title.textContent = this.title;
-        description.textContent = this.description;
         dueDate.textContent = this.dueDate;
-        priority.textContent = this.priority;
-        
-        this.taskContainer.appendChild(this.checkBtn)
+        edit.classList.add('edit-btn');
+        remove.classList.add('remove-btn');
+       
+        this.taskContainer.appendChild(this.checkBtn);
         this.taskContainer.appendChild(title);
-        this.taskContainer.appendChild(description);
+        this.taskContainer.appendChild(completed);
+        this.taskContainer.appendChild(this.detailsBtn);
         this.taskContainer.appendChild(dueDate);
-        this.taskContainer.appendChild(priority);
         this.taskContainer.appendChild(edit);
         this.taskContainer.appendChild(remove);
+
+        // create details elements
+        const titleDetail = document.createElement('h1');
+        const proyectName = document.createElement('p');
+        const priorityDetail = document.createElement('p');
+        const dueDateDetail = document.createElement('p');
+        const descriptionDetail = document.createElement('p');
+        
+        this.detailsBtn.textContent = 'DETAILS';
+        this.detailsBtn.classList.add('details-btn')
+        this.closeDetailsBtn.textContent = 'x';
+        this.closeDetailsBtn.classList.add('close-details-btn');
+        titleDetail.textContent = this.title;
+        if(this.proyect[1]){
+            proyectName.textContent = `Proyect: ${this.proyect[1]}`;
+        }
+        else {
+            proyectName.textContent = `Proyect: ${this.proyect[0]}`;
+        }
+        priorityDetail.textContent = `Priority: ${this.priority}`;
+        dueDateDetail.textContent = `Due Date: ${this.dueDate}`;
+        descriptionDetail.textContent = `Description: ${this.description}`;
+
+        this.detailsContainer.appendChild(this.closeDetailsBtn);
+        this.detailsContainer.appendChild(titleDetail);
+        this.detailsContainer.appendChild(proyectName);
+        this.detailsContainer.appendChild(priorityDetail);
+        this.detailsContainer.appendChild(dueDateDetail);
+        this.detailsContainer.appendChild(descriptionDetail);
+    }
+
+    showDetails(){
+        displayJustEntireForm();
+        this.detailsContainer.style.display = 'flex';
+        this.closeDetailsBtn.addEventListener('click', () => {
+            this.detailsContainer.style.display = 'none';
+            closeForm();
+        })
     }
 
     appendTaskTo(container){
@@ -58,10 +106,15 @@ export class Task {
             this.checked = true;
             button.classList.remove('unchecked-btn');
             button.classList.add('checked-btn');
-        } else if(this.checked) {
+            button.parentNode.querySelector('.completed').style.display = 'flex';
+            button.parentNode.classList.add('task-completed');
+        } 
+        else if(this.checked) {
             this.checked = false;
             button.classList.add('unchecked-btn');
             button.classList.remove('checked-btn');
+            button.parentNode.querySelector('.completed').style.display = 'none';
+            button.parentNode.classList.remove('task-completed');
         }
     }
 
