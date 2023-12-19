@@ -100,6 +100,8 @@ function loadTasks() {
         let loadedTask = new Task( values.title, values.description, values.duedate, values.priority );
         // add proyects
         loadedTask.proyectsIn = values.proyectsIn
+        // add check value
+        loadedTask.checked = values.checked;
         // create task container
         loadedTask.createContainer();
         // loaded task proyects in

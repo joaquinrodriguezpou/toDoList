@@ -132,7 +132,8 @@ export function listenTaskBtns() {
             let selectedTask = proyectsManager.proyects['Home'].tasks[taskName];
             // check task or uncheck task
             selectedTask.check(event.target);
-            console.log(selectedTask)
+            // update task
+            storeTaskValues(selectedTask);
         }
         else if(event.target.classList.contains('details-btn')) {
             // get the task name

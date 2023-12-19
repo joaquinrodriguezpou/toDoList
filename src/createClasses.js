@@ -27,6 +27,7 @@ export class Task {
             dueDate: this.dueDate,
             priority: this.priority,
             proyectsIn: this.proyectsIn,
+            checked: this.checked,
         };
     }
 
@@ -81,6 +82,13 @@ export class Task {
         this.detailsContainer.appendChild(priorityDetail);
         this.detailsContainer.appendChild(dueDateDetail);
         this.detailsContainer.appendChild(descriptionDetail);
+
+        if(this.checked) {
+            this.checkBtn.classList.remove('unchecked-btn');
+            this.checkBtn.classList.add('checked-btn');
+            this.checkBtn.parentNode.querySelector('.completed').style.display = 'flex';
+            this.checkBtn.parentNode.classList.add('task-completed');
+        }
     }
 
     showDetails(){

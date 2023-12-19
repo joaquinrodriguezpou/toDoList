@@ -220,12 +220,11 @@ header + div {
 
 .checked-btn {
     background-image: url(./images/check-circle.svg);
-    background-repeat: no-repeat;
+    color: white;
 }
 
 .unchecked-btn {
    background-image: url(./images/unchecked-circle.svg);
-   background-repeat: no-repeat;
 }
 
 .edit-btn {
