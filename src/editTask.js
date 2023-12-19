@@ -1,7 +1,7 @@
 import { displayEditForm, closeForm } from './formShowing.js';
 import { Task, proyectsManager} from './createClasses.js';
-import { stylePriority, sayProyectShown } from './handleForm.js';
-import { removeTaskName, storeTaskName, storeTaskValues, getStoredTaskName, getStoredTaskValues, rewriteTask} from './localStorage.js';
+import { stylePriority, sayProyectShown, showEmptyProyectSign, changeProyectShown } from './handleForm.js';
+import { removeTaskName, storeTaskName, storeTaskValues, removeProyectName } from './localStorage.js';
 
 const tasksContainer = document.querySelector('.tasks-container');
 const editTaskForm = document.getElementById('edit-task-form');
@@ -83,6 +83,7 @@ function createEditedTask() {
     storeTaskName(editedTask.title);
     storeTaskValues(editedTask);
     removeTaskName(oldTask.title);
+    localStorage.removeItem(oldTask.title);
 }
 
 export function EditeTask(){
@@ -105,8 +106,13 @@ export function listenTaskBtns() {
             const actualProyect = sayProyectShown();
             const removedTask = proyectsManager.proyects['Home'].tasks[taskName];
             removedTask.proyectsIn.splice(removedTask.proyectsIn.indexOf(actualProyect), 1);
+            storeTaskValues(removedTask);
             if(removedTask.proyectsIn.length === 0){
-                removeTaskName(removedTask.title)
+                removeTaskName(removedTask.title);
+                localStorage.removeItem(removedTask.title);
+            }
+            if(sayProyectShown() !== 'Home') {
+                showEmptyProyectSign();
             }
         }
         // verify if it is an edit button
@@ -135,6 +141,18 @@ export function listenTaskBtns() {
             let selectedTask = proyectsManager.proyects['Home'].tasks[taskName];
             // show details container
             selectedTask.showDetails();
+        }
+        else if(event.target.classList.contains('delete-proyect-btn')) {
+            // delete proyect
+            const deletedProyect = proyectsManager.proyects[sayProyectShown()];
+            const deletedProyectBtn = document.getElementById(`${deletedProyect.name}Btn`);
+            const deletedProyectContainer = document.getElementById(deletedProyect.name);
+            deletedProyectBtn.remove();
+            deletedProyectContainer.remove();
+            changeProyectShown('Home');
+            document.getElementById('Home').style.display = 'flex';
+            document.getElementById('HomeBtn').classList.add('proyect-btn-selected');
+            removeProyectName(deletedProyect.name);
         }
     });
 }

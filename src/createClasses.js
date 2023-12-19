@@ -139,14 +139,39 @@ export class Proyect {
         this.button.textContent = this.name;
     }
 
-    createContainer(){
+    createContainer() {
+        // Crear el contenedor principal
         this.container = document.createElement('div');
         this.container.classList.add('proyect-container');
         this.container.id = this.name;
         this.container.style.display = 'none';
+
+        // Crear el título del proyecto
         const title = document.createElement('h1');
-        title.textContent = this.name;   
+        title.textContent = this.name;
         this.container.appendChild(title);
+
+        // Crear el contenido dinámico utilizando const y let
+        const emptyProjectSign = document.createElement('div');
+        emptyProjectSign.classList.add('empty-proyect-sign');
+
+        const heading = document.createElement('h3');
+        heading.textContent = 'Empty Project';
+
+        const paragraph = document.createElement('p');
+        paragraph.textContent = 'Create a new to-do item or delete project.';
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-proyect-btn');
+        deleteButton.textContent = 'DELETE PROJECT';
+
+        // Agregar los elementos al contenedor principal
+        emptyProjectSign.appendChild(heading);
+        emptyProjectSign.appendChild(paragraph);
+        emptyProjectSign.appendChild(deleteButton);
+
+        // Agregar el contenido dinámico al contenedor principal
+        this.container.appendChild(emptyProjectSign);
     }
 
     appendProyectTo(container){

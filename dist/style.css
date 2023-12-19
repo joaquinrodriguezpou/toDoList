@@ -154,6 +154,20 @@ header + div {
     box-sizing: border-box;
 }
 
+.empty-proyect-sign {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.3rem;
+}
+
+.empty-proyect-sign h3{
+    font-size: 2rem;
+}
+
 .task-container {
     display: flex;
     gap: 2rem;
@@ -399,15 +413,29 @@ textarea {
     margin-right: 1rem;
 }
 
-.add-btn {
+.add-btn, .delete-proyect-btn{
     font-size: 1rem;
     padding: 6px 12px;
     border-radius: 5px;
-    border: 1px solid rgb(94, 181, 158);
-    color: rgb(94, 181, 158);
     background-color: transparent;
     font-weight: bold;
     letter-spacing: 1px;
+}
+
+.add-btn {
+    border: 1px solid rgb(94, 181, 158);
+    color: rgb(94, 181, 158);
+}
+
+.delete-proyect-btn {
+    background-color: white;
+    color: rgb(155, 181, 155);
+    border: 2px solid rgb(155, 181, 155);
+}
+
+.delete-proyect-btn:hover {
+    background-color: rgb(155, 181, 155);
+    color: white;
 }
 
 #add-task-btn {

@@ -12,8 +12,39 @@ const priorityBtns = document.querySelectorAll('.radios');
 // define proyect to be shown
 let proyectShown = 'Home';
 
- export function sayProyectShown(){
+export function sayProyectShown(){
     return proyectShown;
+}
+
+function checkEmptyProyect() {
+    const actualProyect = sayProyectShown();
+    const actualProyectContainer = document.getElementById(actualProyect);
+    
+    // Buscar elementos con la clase .task-container dentro del proyecto actual
+    const taskContainers = actualProyectContainer.querySelectorAll('.task-container');
+    
+    // Verificar si no hay elementos con la clase .task-container
+    const emptyProyect = taskContainers.length === 0;
+    
+    return emptyProyect;
+}
+
+export function showEmptyProyectSign() {
+    if(sayProyectShown() !== 'Home'){
+        const actualProyectContainer = document.getElementById(sayProyectShown());
+        const emptyProyectSign = actualProyectContainer.querySelector('.empty-proyect-sign');
+        if(checkEmptyProyect()){
+            emptyProyectSign.style.display = 'flex';
+        }
+        else {
+            emptyProyectSign.style.display = 'none';
+        } 
+    }
+}
+
+
+export function changeProyectShown(proyectName) {
+    proyectShown = proyectName;
 }
 
 const Home = new Proyect('Home');
@@ -81,6 +112,7 @@ export function addTask(){
         createTask()
         closeForm();
         resetForm();
+        showEmptyProyectSign();
     })
 } 
 
@@ -90,11 +122,12 @@ export function addProyect(){
         // prevents page for refreshing
         event.preventDefault();
         createProyect();
+        showEmptyProyectSign();
         closeForm();
     })
 } 
 
-export function showSelectedProyect(){
+export function showSelectedProyect() {
     proyectButtonsContainer.addEventListener('click', (event) => {
     if(event.target.tagName !== "BUTTON"){
         console.log(getStoredTaskName());
@@ -120,6 +153,8 @@ export function showSelectedProyect(){
     });
     // style selected proyect button
     selectedProyectBtn.classList.add('proyect-btn-selected');
+    // check if empty
+    showEmptyProyectSign();
 })
 }
 

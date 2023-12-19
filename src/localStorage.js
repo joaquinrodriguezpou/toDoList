@@ -4,6 +4,7 @@ import { proyectButtonsContainer, tasksContainer } from './handleForm';
 
 // localStorage.removeItem('proyectNames')
 // localStorage.removeItem('taskNames')
+// localStorage.clear();
 
 
 window.addEventListener('load', () => {
@@ -128,9 +129,9 @@ export function storeProyect(project) {
     localStorage.setItem('proyectNames', JSON.stringify(proyectNames));
 }
 
-export function removeTaskName(task) {
+export function removeTaskName(taskName) {
     const taskNames = getStoredTaskName();
-    const index = taskNames.indexOf(task);
+    const index = taskNames.indexOf(taskName);
 
     if (index !== -1) {
       taskNames.splice(index, 1); 
@@ -138,5 +139,17 @@ export function removeTaskName(task) {
 
     localStorage.setItem('taskNames', JSON.stringify(taskNames)); 
     console.log(getStoredTaskName())
-  }
+}
+
+export function removeProyectName(proyectName) {
+    const proyectNames = getStoredProyectName();
+    const index = proyectNames.indexOf(proyectName);
+
+    if (index !== -1) {
+        proyectNames.splice(index, 1); 
+    }
+
+    localStorage.setItem('proyectNames', JSON.stringify(proyectNames)); 
+    console.log(getStoredProyectName())
+}
   
