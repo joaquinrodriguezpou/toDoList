@@ -1,12 +1,10 @@
-import { displayEditForm } from './formShowing.js';
-import { closeForm } from './formShowing.js';
-import { Task } from './createClasses.js';
-import { proyectsManager } from './createClasses.js';
-import { stylePriority } from './handleForm.js';
+import { displayEditForm, closeForm } from './formShowing.js';
+import { Task, proyectsManager} from './createClasses.js';
+import { stylePriority, sayProyectShown } from './handleForm.js';
+import { removeTaskName, storeTaskName, storeTaskValues, getStoredTaskName, getStoredTaskValues, rewriteTask} from './localStorage.js';
 
 const tasksContainer = document.querySelector('.tasks-container');
 const editTaskForm = document.getElementById('edit-task-form');
-// const priorityBtns = document.querySelectorAll('.radios');
 
 // store task that is being edited
 let oldTask;
@@ -48,24 +46,26 @@ function fillEditFormWithTaskValues(){
 function createEditedTask() {
     // create edited task 
     let editedTask = new Task(...getEditTaskValues());
-    // add Home proyect to the task
-    editedTask.addProyect('Home');
+    // add fist proyect
+    editedTask.addProyect(oldTask.proyectsIn[0]);
     // if oldtask was in a second proyect, add second proyect to the task
-    if(oldTask.proyect[1]){
-        editedTask.addProyect(oldTask.proyect[1]);
+    if(oldTask.proyectsIn[1]){
+        editedTask.addProyect(oldTask.proyectsIn[1]);
     }
     // create edited task container
     editedTask.createContainer();
     // find in wich proyect is the task
-    let proyectsIn = oldTask.proyect;
+    let proyectsIn = editedTask.proyectsIn;
         // iterate through each proyect the task is in
-    proyectsIn.forEach(proyect => {
+    proyectsIn.forEach(proyectIn => {
         // select actual proyect
-        let actualProyect = proyectsManager.proyects[proyect];
+        let actualProyect = proyectsManager.proyects[proyectIn];
+        console.log(proyectsManager.proyects)
+        console.log(proyectsManager.proyects[proyectIn])
         // select actual proyect container
         let actualProyectContainer = document.getElementById(actualProyect.name);
         // select old task container
-        let oldTaskContainer = document.getElementById(oldTask.title);
+        let oldTaskContainer = actualProyectContainer.querySelector(`.${oldTask.title}`);
         // add edited task container right next to the old one
         actualProyectContainer.insertBefore(editedTask.makeContainerCopy(), oldTaskContainer);
         // remove old task container
@@ -80,6 +80,9 @@ function createEditedTask() {
         // add edited task to the proyect it was in
         actualProyect.addTask(editedTask);
     })
+    storeTaskName(editedTask.title);
+    storeTaskValues(editedTask);
+    removeTaskName(oldTask.title);
 }
 
 export function EditeTask(){
@@ -98,11 +101,18 @@ export function listenTaskBtns() {
         if (event.target.classList.contains('remove-btn')) {
             // remove task container
             event.target.parentNode.remove();
+            let taskName = event.target.parentNode.classList.item(1);
+            const actualProyect = sayProyectShown();
+            const removedTask = proyectsManager.proyects['Home'].tasks[taskName];
+            removedTask.proyectsIn.splice(removedTask.proyectsIn.indexOf(actualProyect), 1);
+            if(removedTask.proyectsIn.length === 0){
+                removeTaskName(removedTask.title)
+            }
         }
         // verify if it is an edit button
         else if(event.target.classList.contains('edit-btn')) {
             // get the task name
-            let taskName = event.target.parentNode.id;
+            let taskName = event.target.parentNode.classList.item(1);
             // select current task
             oldTask = proyectsManager.proyects['Home'].tasks[taskName];
             fillEditFormWithTaskValues();
@@ -111,15 +121,16 @@ export function listenTaskBtns() {
         }
         else if(event.target.classList.contains('check-btn')) {
             // get the task name
-            let taskName = event.target.parentNode.id;
+            let taskName = event.target.parentNode.classList.item(1);
             // select current task
             let selectedTask = proyectsManager.proyects['Home'].tasks[taskName];
             // check task or uncheck task
             selectedTask.check(event.target);
+            console.log(selectedTask)
         }
         else if(event.target.classList.contains('details-btn')) {
             // get the task name
-            let taskName = event.target.parentNode.id;
+            let taskName = event.target.parentNode.classList.item(1);
             // select current task
             let selectedTask = proyectsManager.proyects['Home'].tasks[taskName];
             // show details container

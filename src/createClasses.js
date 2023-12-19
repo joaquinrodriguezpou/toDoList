@@ -1,10 +1,5 @@
-// import uncheckedCircle from '../dist/images/unchecked-circle.svg';
-// import checkedCircle from '../dist/images/check-circle.svg';
-// import editIcon from '../dist/images/edit.svg';
-// import trashIcon from '../dist/images/trash.svg';
-import { entireForm } from "./formShowing";
-import { displayJustEntireForm } from "./formShowing";
-import { closeForm } from "./formShowing";
+import { entireForm, displayJustEntireForm, closeForm } from "./formShowing";
+import { storeProyect } from "./localStorage";
 
 export class Task {
     constructor(title, description, dueDate, priority) {
@@ -15,20 +10,30 @@ export class Task {
         this.checked = false;
         this.checkBtn;
         this.taskContainer;
-        this.proyect = [];
+        this.proyectsIn = [];
         // create details container
         this.detailsBtn = document.createElement('button');
         this.detailsContainer = document.createElement('div');
         this.detailsContainer.classList.add('details-container');
         this.closeDetailsBtn = document.createElement('button');
         entireForm.appendChild(this.detailsContainer);
+        
+    }
 
+    getValues(){
+        return {
+            title: this.title,
+            description: this.description,
+            dueDate: this.dueDate,
+            priority: this.priority,
+            proyectsIn: this.proyectsIn,
+        };
     }
 
     createContainer(){
         this.taskContainer = document.createElement('div');
-        this.taskContainer.classList.add('task-container');
-        this.taskContainer.id = this.title;
+        this.taskContainer.classList.add('task-container', `${this.title}`);
+        // this.taskContainer.id = this.title;
 
         this.checkBtn = document.createElement('button');
         const completed = document.createElement('p');
@@ -65,12 +70,7 @@ export class Task {
         this.closeDetailsBtn.textContent = 'x';
         this.closeDetailsBtn.classList.add('close-details-btn');
         titleDetail.textContent = this.title;
-        if(this.proyect[1]){
-            proyectName.textContent = `Proyect: ${this.proyect[1]}`;
-        }
-        else {
-            proyectName.textContent = `Proyect: ${this.proyect[0]}`;
-        }
+        proyectName.textContent = `Proyect: ${this.proyectsIn[0]}`;
         priorityDetail.textContent = `Priority: ${this.priority}`;
         dueDateDetail.textContent = `Due Date: ${this.dueDate}`;
         descriptionDetail.textContent = `Description: ${this.description}`;
@@ -119,7 +119,7 @@ export class Task {
     }
 
     addProyect(proyectName){
-            this.proyect.push(proyectName);
+            this.proyectsIn.push(proyectName);
         }
 }
 
@@ -177,6 +177,10 @@ class ProyectsManager {
   
     addProyect(name, proyect) {
       this.proyects[name] = proyect;
+    }
+
+    getProjects() {
+        return Object.values(this.projects);
     }
 }
   

@@ -1,9 +1,9 @@
 import { closeForm } from './formShowing.js';
-import { Task, Proyect } from './createClasses.js';
-import { proyectsManager } from './createClasses.js';
+import { Task, Proyect, proyectsManager } from './createClasses.js';
+import { getStoredProyectName, storeProyect, getStoredTaskName, storeTaskName, storeTaskValues} from './localStorage.js';
 
-const tasksContainer = document.querySelector('.tasks-container');
-const proyectButtonsContainer = document.querySelector('.proyect-btns-container');
+export const tasksContainer = document.querySelector('.tasks-container');
+export const proyectButtonsContainer = document.querySelector('.proyect-btns-container');
 const taskForm = document.getElementById('taskForm');
 const proyectForm = document.getElementById('proyectForm');
 const editTaskForm = document.getElementById('edit-task-form');
@@ -12,29 +12,37 @@ const priorityBtns = document.querySelectorAll('.radios');
 // define proyect to be shown
 let proyectShown = 'Home';
 
-// create and add "Home" proyect to proyect buttons container
+ export function sayProyectShown(){
+    return proyectShown;
+}
+
 const Home = new Proyect('Home');
-Home.createBtn();
-proyectButtonsContainer.insertBefore( Home.button, proyectButtonsContainer.firstChild)
-Home.createContainer();
-Home.appendProyectTo(tasksContainer)
-Home.container.style.display = 'flex';
-proyectsManager.addProyect(Home.name, Home);
-Home.button.classList.add('proyect-btn-selected');
+    Home.createBtn();
+    proyectButtonsContainer.insertBefore( Home.button, proyectButtonsContainer.firstChild)
+    Home.createContainer();
+    Home.appendProyectTo(tasksContainer)
+    Home.container.style.display = 'flex';
+    proyectsManager.addProyect(Home.name, Home);
+    Home.button.classList.add('proyect-btn-selected');
 
-const Proyect1 = new Proyect('Proyect1');
-Proyect1.createBtn();;
-Proyect1.appendBtnTo(proyectButtonsContainer);
-Proyect1.createContainer();
-Proyect1.appendProyectTo(tasksContainer)
-proyectsManager.addProyect(Proyect1.name, Proyect1);
+export function createInitialElements() {
+    const Proyect1 = new Proyect('Proyect1');
+    Proyect1.createBtn();;
+    Proyect1.appendBtnTo(proyectButtonsContainer);
+    Proyect1.createContainer();
+    Proyect1.appendProyectTo(tasksContainer)
+    proyectsManager.addProyect(Proyect1.name, Proyect1);
+    storeProyect(Proyect1)
 
-const clean = new Task('clean', 'gggg', '12/12', 'high');
-clean.addProyect(Home.name);
-clean.createContainer();
-Home.addTask(clean);
-clean.appendTaskTo(Home.container); 
-clean.addProyect(Home.name);
+    const clean = new Task('clean', 'gggg', '12/12', 'high');
+    clean.addProyect(Home.name);
+    clean.createContainer();
+    Home.addTask(clean);
+    clean.appendTaskTo(Home.container); 
+    storeTaskName(clean.title);
+    storeTaskValues(clean)
+    console.log(clean.proyectsIn)
+}
 
 export function stylePriority(){
     priorityBtns.forEach(btn => {
@@ -88,6 +96,10 @@ export function addProyect(){
 
 export function showSelectedProyect(){
     proyectButtonsContainer.addEventListener('click', (event) => {
+    if(event.target.tagName !== "BUTTON"){
+        console.log(getStoredTaskName());
+        return
+    }
     // define selected proyect
     proyectShown = event.target.textContent;
     // select selected proyect
@@ -146,7 +158,7 @@ function createTask(){
     // select current selected proyect
     let selectedProyect = proyectsManager.proyects[proyectShown]
     // add Home proyect to the task
-    newTask.addProyect('Home');
+    newTask.addProyect(proyectShown);
     // create task container
     newTask.createContainer();
     // add created task to current selected proyect
@@ -154,7 +166,6 @@ function createTask(){
     // append created task container to current selected proyect container
     newTask.appendTaskTo(selectedProyect.container);
     
-
     if(proyectShown !== 'Home') {
         // add task to home proyect
         Home.addTask(newTask); 
@@ -164,6 +175,9 @@ function createTask(){
         newTask.addProyect('Home');
         // newTask.taskContainer.id = newTask.title;
     };
+    
+    storeTaskName(newTask.title);
+    storeTaskValues(newTask)
 }
 
 function createProyect() {
@@ -179,6 +193,8 @@ function createProyect() {
     newProyect.appendProyectTo(tasksContainer)
     // add proyect to the proyects object
     proyectsManager.addProyect(newProyect.name, newProyect)
+    // store proyect in localStorage
+    storeProyect(newProyect)
 }
 
 
