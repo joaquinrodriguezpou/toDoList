@@ -104,7 +104,8 @@ export function listenTaskBtns() {
             event.target.parentNode.remove();
             let taskName = event.target.parentNode.classList.item(1);
             const actualProyect = sayProyectShown();
-            const removedTask = proyectsManager.proyects['Home'].tasks[taskName];
+            console.log(proyectsManager.proyects)
+            const removedTask = proyectsManager.proyects[actualProyect].tasks[taskName];
             removedTask.proyectsIn.splice(removedTask.proyectsIn.indexOf(actualProyect), 1);
             storeTaskValues(removedTask);
             if(removedTask.proyectsIn.length === 0){

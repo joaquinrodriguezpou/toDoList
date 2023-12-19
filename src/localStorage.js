@@ -102,8 +102,10 @@ function loadTasks() {
         loadedTask.proyectsIn = values.proyectsIn
         // add check value
         loadedTask.checked = values.checked;
+
         // create task container
         loadedTask.createContainer();
+
         // loaded task proyects in
         let proyectsIn = values.proyectsIn;
 
@@ -116,7 +118,18 @@ function loadTasks() {
             selectedProyect.addTask(loadedTask);
             // append created task container to current selected proyect container
             loadedTask.appendTaskTo(selectedProyect.container);
+
+            if(loadedTask.checked){
+                const loadedTaskContainer = document.querySelector(`.${loadedTask.title}`);
+                const checkBtn = loadedTaskContainer.querySelector('.check-btn');
+                checkBtn.classList.remove('unchecked-btn');
+                checkBtn.classList.add('checked-btn');
+                checkBtn.parentNode.querySelector('.completed').style.display = 'flex';
+                checkBtn.parentNode.classList.add('task-completed');
+            }
         })
+
+        
     })
 }
 
